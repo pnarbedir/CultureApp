@@ -1,6 +1,7 @@
 package com.example.cultureapp.Cerceve;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -21,6 +22,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.cultureapp.Adapter.MyFotoAdapter;
+import com.example.cultureapp.AyarlarEkrani;
+import com.example.cultureapp.FollowersActivity;
 import com.example.cultureapp.R;
 import com.example.cultureapp.model.Gonderi;
 import com.example.cultureapp.model.Kullanici;
@@ -34,31 +37,29 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment {
-   ImageView image_profile,options;
-   TextView alintilar,geziler,following,fullname,bio,username;
-   Button edit_profile;
-   FirebaseUser mevcutKullanici;
-   String profileId;
-   ImageButton my_fotos,saved_fotos;
+    ImageView image_profile,options;
+    TextView alintilar,followers,following,fullname,bio,username;
+    Button edit_profile;
+    FirebaseUser mevcutKullanici;
+    String profileId;
+    ImageButton my_fotos,saved_fotos;
 
-   RecyclerView recyclerView;
-   MyFotoAdapter myFotoAdapter;
-   List<Gonderi> postList;
+    RecyclerView recyclerView;
+    MyFotoAdapter myFotoAdapter;
+    List<Gonderi> postList;
 
 
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -70,14 +71,14 @@ public class ProfileFragment extends Fragment {
         image_profile = view.findViewById(R.id.image_profile);
         options = view.findViewById(R.id.options);
         alintilar = view.findViewById(R.id.alintilar);
-        geziler = view.findViewById(R.id.geziler);
+        followers = view.findViewById(R.id.geziler);
         following = view.findViewById(R.id.following);
         fullname = view.findViewById(R.id.fullname);
         bio = view.findViewById(R.id.bio);
         username = view.findViewById(R.id.username);
         edit_profile = view.findViewById(R.id.edit_profile);
         my_fotos = view.findViewById(R.id.my_fotos);
-        saved_fotos = view.findViewById(R.id.saved_fotos);
+     //   saved_fotos = view.findViewById(R.id.saved_fotos);
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -97,7 +98,7 @@ public class ProfileFragment extends Fragment {
         }
         else {
             checkFollow();
-            saved_fotos.setVisibility(View.GONE);
+//            saved_fotos.setVisibility(View.GONE);
         }
 
         edit_profile.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +106,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 String btn = edit_profile.getText().toString();
                 if(btn.equals("Profili Düzenle")) {
-
+                    startActivity(new Intent(getContext(), AyarlarEkrani.class));
                 }
                 else if(btn.equals("takip et")) {
                     FirebaseDatabase.getInstance().getReference().child("Takip").child(mevcutKullanici.getUid())
@@ -113,6 +114,7 @@ public class ProfileFragment extends Fragment {
 
                     FirebaseDatabase.getInstance().getReference().child("Takip").child(profileId)
                             .child("takipciler").child(mevcutKullanici.getUid()).setValue(true);
+                    addNotifications();
                 }
                 else if(btn.equals("takip ediliyor"))
                 {
@@ -126,9 +128,45 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        followers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FollowersActivity.class);
+                intent.putExtra("id",profileId);
+                intent.putExtra("title","takipciler");
+                startActivity(intent);
+
+            }
+        });
+
+        following.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FollowersActivity.class);
+                intent.putExtra("id",profileId);
+                intent.putExtra("title","takipEdilenler");
+                startActivity(intent);
+
+            }
+        });
+
+
 
         return view;
     }
+    private void addNotifications() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Bildirimler")
+                .child(profileId);
+
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("kullaniciId",mevcutKullanici.getUid());
+        hashMap.put("text","seni takip etmeye başladı");
+        hashMap.put("gonderiId","");
+        hashMap.put("ispost",false);
+
+        reference.push().setValue(hashMap);
+    }
+
     private void userInfo() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Kullanicilar").child(profileId);
         reference.addValueEventListener(new ValueEventListener() {
@@ -178,7 +216,7 @@ public class ProfileFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                geziler.setText(""+dataSnapshot.getChildrenCount());
+                followers.setText(""+dataSnapshot.getChildrenCount());
             }
 
             @Override

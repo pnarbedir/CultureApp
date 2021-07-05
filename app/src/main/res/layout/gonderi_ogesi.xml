@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_more"
+        android:id="@+id/more"
+        android:layout_margin="15dp" />
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,38 +37,58 @@
                 android:textColor="@color/colorPrimaryDark"/>
 
         </LinearLayout>
-        
+
+        <TextView
+            android:id="@+id/txt_gonderen_Gonderi_Ogesi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Şeyma Fırat"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_gonderiHakkinda_Gonderi_Ogesi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="gönderi hakkinda"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/begeni_Gonderi_Ogesi"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="260dp"
+                android:src="@drawable/ic_begeni" />
+
+            <ImageView
+                android:id="@+id/yorum_Gonderi_Ogesi"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="312dp"
+                android:src="@drawable/ic_yorum" />
+
+            <ImageView
+                android:id="@+id/kaydet_Gonderi_Ogesi"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_kaydet_siyah" />
+
+
+        </RelativeLayout>
+
         <ImageView
             android:id="@+id/post_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_launcher"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp">
-            <ImageView
-                android:id="@+id/begeni_Gonderi_Ogesi"
-                android:src="@drawable/ic_begeni"
-                android:layout_width="30dp"
-                android:layout_height="30dp" />
-            <ImageView
-                android:id="@+id/yorum_Gonderi_Ogesi"
-                android:src="@drawable/ic_yorum"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_toEndOf="@+id/begeni_Gonderi_Ogesi"
-                android:layout_marginStart="10dp"/>
 
-            <ImageView
-                android:id="@+id/kaydet_Gonderi_Ogesi"
-                android:src="@drawable/ic_kaydet_siyah"
-                android:layout_alignParentEnd="true"
-                android:layout_width="30dp"
-                android:layout_height="30dp"/>
-
-
-        </RelativeLayout>
         <TextView
             android:id="@+id/txt_begeniler_Gonderi_Ogesi"
             android:textStyle="bold"
@@ -68,19 +96,7 @@
             android:text="10 beğeni"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/txt_gonderen_Gonderi_Ogesi"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="Şeyma Fırat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/txt_gonderiHakkinda_Gonderi_Ogesi"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="gönderi hakkinda"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
         <TextView
             android:id="@+id/txt_yorum_Gonderi_Ogesi"
             android:textStyle="bold"
@@ -91,8 +107,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        
-        
+
+
     </LinearLayout>
 
 </RelativeLayout>

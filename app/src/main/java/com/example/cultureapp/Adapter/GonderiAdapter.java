@@ -1,21 +1,32 @@
 package com.example.cultureapp.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.cultureapp.Anasayfa;
 import com.example.cultureapp.Cerceve.PostDetailFragment;
 import com.example.cultureapp.Cerceve.ProfileFragment;
+import com.example.cultureapp.FollowersActivity;
 import com.example.cultureapp.R;
 import com.example.cultureapp.YorumlarActivity;
 import com.example.cultureapp.model.Gonderi;
 import com.example.cultureapp.model.Kullanici;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -34,6 +46,8 @@ public class GonderiAdapter extends RecyclerView.Adapter<GonderiAdapter.ViewHold
 
     public Context mContext;
     public List<Gonderi> mGonderi;
+    private KullaniciAdapter kullaniciAdapter;
+    private List<Kullanici> mKullanicilar;
 
     private FirebaseUser mevcutFirebaseUser;
 
@@ -57,6 +71,7 @@ public class GonderiAdapter extends RecyclerView.Adapter<GonderiAdapter.ViewHold
         final Gonderi gonderi = mGonderi.get(position);
         Glide.with(mContext).load(gonderi.getGonderiResmi()).into(holder.gonderi_resmi);
 
+
         if(gonderi.getGonderiHakkinda().equals(""))
         {
             holder.txt_gonderiHakkinda.setVisibility(View.GONE);
@@ -76,7 +91,7 @@ public class GonderiAdapter extends RecyclerView.Adapter<GonderiAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
-                editor.putString("profileId",gonderi.getGonderen());
+                editor.putString("profile",gonderi.getGonderen());
                 editor.apply();
 
                 ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.cerceve_kapsayicisi,
@@ -86,6 +101,7 @@ public class GonderiAdapter extends RecyclerView.Adapter<GonderiAdapter.ViewHold
         holder.txt_kullanici_adi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
                 editor.putString("profileId",gonderi.getGonderen());
                 editor.apply();
@@ -97,12 +113,14 @@ public class GonderiAdapter extends RecyclerView.Adapter<GonderiAdapter.ViewHold
         holder.txt_gonderen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
                 editor.putString("profileId",gonderi.getGonderen());
                 editor.apply();
 
                 ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.cerceve_kapsayicisi,
                         new ProfileFragment()).commit();
+
             }
         });
         holder.gonderi_resmi.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +143,7 @@ public class GonderiAdapter extends RecyclerView.Adapter<GonderiAdapter.ViewHold
                 {
                     FirebaseDatabase.getInstance().getReference().child("Begeniler").child(gonderi.getGonderiId())
                             .child(mevcutFirebaseUser.getUid()).setValue(true);
+                    addNotifications(gonderi.getGonderen(),gonderi.getGonderiId());
                 }
                 else {
                     FirebaseDatabase.getInstance().getReference().child("Begeniler").child(gonderi.getGonderiId())
@@ -150,6 +169,60 @@ public class GonderiAdapter extends RecyclerView.Adapter<GonderiAdapter.ViewHold
                 mContext.startActivity(intent);
             }
         });
+
+        holder.txt_begeni.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, FollowersActivity.class);
+                intent.putExtra("id",gonderi.getGonderiId());
+                intent.putExtra("title","begeniler");
+                mContext.startActivity(intent);
+
+            }
+        });
+
+        holder.more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(mContext,v);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.edit:
+                                editPost(gonderi.getGonderiId());
+                                return true;
+                            case R.id.delete:
+                                FirebaseDatabase.getInstance().getReference("Gonderiler")
+                                        .child(gonderi.getGonderiId()).removeValue()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+
+                                                    Toast.makeText(mContext, "Silindi", Toast.LENGTH_SHORT).show();
+                                                }
+
+                                            }
+                                        });
+                                return true;
+                            case R.id.report:
+                                Toast.makeText(mContext,"Rapora tıklandı",Toast.LENGTH_SHORT).show();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                popupMenu.inflate(R.menu.post_menu);
+                if (!gonderi.getGonderen().equals(mevcutFirebaseUser.getUid())) {
+                    popupMenu.getMenu().findItem(R.id.edit).setVisible(false);
+                    popupMenu.getMenu().findItem(R.id.delete).setVisible(false);
+
+                }
+                popupMenu.show();
+            }
+        });
     }
 
     @Override
@@ -159,7 +232,7 @@ public class GonderiAdapter extends RecyclerView.Adapter<GonderiAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        public ImageView profil_resmi,gonderi_resmi,begeni_resmi,yorum_resmi,kaydetme_resmi;
+        public ImageView profil_resmi,gonderi_resmi,begeni_resmi,yorum_resmi,kaydetme_resmi,more;
 
         public TextView txt_kullanici_adi,txt_begeni,txt_gonderen,txt_gonderiHakkinda,txt_yorumlar;
 
@@ -178,6 +251,7 @@ public class GonderiAdapter extends RecyclerView.Adapter<GonderiAdapter.ViewHold
             txt_gonderen = itemView.findViewById(R.id.txt_gonderen_Gonderi_Ogesi);
             txt_gonderiHakkinda = itemView.findViewById(R.id.txt_gonderiHakkinda_Gonderi_Ogesi);
             txt_yorumlar = itemView.findViewById(R.id.txt_yorum_Gonderi_Ogesi);
+            more = itemView.findViewById(R.id.more);
 
 
         }
@@ -224,10 +298,23 @@ public class GonderiAdapter extends RecyclerView.Adapter<GonderiAdapter.ViewHold
             }
         });
     }
+    private void addNotifications(String kullaniciId,String gonderiId) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Bildirimler")
+                .child(kullaniciId);
+
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("kullaniciId",mevcutFirebaseUser.getUid());
+        hashMap.put("text","gonderini begendi");
+        hashMap.put("gonderiId",gonderiId);
+        hashMap.put("ispost",true);
+
+        reference.push().setValue(hashMap);
+    }
+
     private void begeniSayisi(final TextView begeniler, String gonderiId)
     {
         DatabaseReference begeniSayisiVeriTabaniYolu = FirebaseDatabase.getInstance().getReference()
-               .child("Begeniler")
+                .child("Begeniler")
                 .child(gonderiId);
         begeniSayisiVeriTabaniYolu.addValueEventListener(new ValueEventListener() {
             @Override
@@ -262,4 +349,63 @@ public class GonderiAdapter extends RecyclerView.Adapter<GonderiAdapter.ViewHold
             }
         });
     }
+
+    private void editPost(final String gonderiId) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+        alertDialog.setTitle("Gönderi Düzenle");
+
+        final EditText editText = new EditText(mContext);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+
+        );
+        editText.setLayoutParams(lp);
+        alertDialog.setView(editText);
+
+        getText(gonderiId,editText);
+
+        alertDialog.setPositiveButton("Duzenle",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        HashMap<String ,Object> hashMap = new HashMap<>();
+                        hashMap.put("gonderiHakkinda",editText.getText().toString());
+
+                        FirebaseDatabase.getInstance().getReference("Gonderiler")
+                                .child(gonderiId).updateChildren(hashMap);
+
+                    }
+                });
+        alertDialog.setNegativeButton("Çıkış",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    private void getText(String gonderiId,final EditText editText) {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Gonderiler")
+                .child(gonderiId);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                editText.setText(dataSnapshot.getValue(Gonderi.class).getGonderiHakkinda());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
+
+
 }

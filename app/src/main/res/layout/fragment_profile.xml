@@ -58,18 +58,55 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/mid_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_profile"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/fullname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:maxLines="1"
+                    android:text="Ad...."
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/bio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:maxLines="5"
+                    android:text="biyografi"
+                    android:textColor="@color/colorPrimaryDark" />
+
+                <Button
+                    android:id="@+id/edit_profile"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Profili Duzenle" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/top_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="16dp">
-
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/image_profile"
-                    android:src="@mipmap/ic_launcher"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"/>
 
 
                 <LinearLayout
@@ -92,15 +129,15 @@
                             android:orientation="vertical">
 
 
-                                <TextView
-                                    android:id="@+id/alintilar"
-                                    android:text="Alıntılar"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:textSize="18sp"
-                                    android:textColor="@color/colorPrimaryDark"
-                                    android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/alintilar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="Anılar"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -117,13 +154,13 @@
 
                                 <TextView
                                     android:id="@+id/geziler"
-                                    android:text="Geziler"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:textSize="18sp"
+                                    android:text="Takipçi"
                                     android:textColor="@color/colorPrimaryDark"
-                                    android:textStyle="bold"/>
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -156,45 +193,14 @@
 
                             </LinearLayout>
 
-                        </LinearLayout>
-
-                        <Button
-                            android:id="@+id/edit_profile"
-
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Profili Duzenle"/>
 
 
                     </LinearLayout>
 
+
                 </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/mid_bar"
-                android:padding="12dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/fullname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:maxLines="1"
-                    android:text="Ad...."
-                    android:textSize="16dp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/bio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:maxLines="5"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text="biyografi" />
-            </LinearLayout>
+                </LinearLayout>
 
 
             <LinearLayout
@@ -212,15 +218,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_izgara"/>
-
-                <ImageButton
-                    android:id="@+id/saved_fotos"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_kaydet"/>
+                    android:src="@drawable/ic_izgara" />
 
 
             </LinearLayout>
@@ -229,7 +227,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="295dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_save"

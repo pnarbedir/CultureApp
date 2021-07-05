@@ -15,7 +15,7 @@
         
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_Gonderi"
-            android:background="?android:attr/windowBackground"
+            android:background="#FFFFFF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -28,17 +28,18 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:src="@drawable/ic_kapat"/>
-                
+
                 <TextView
                     android:id="@+id/txt_Gonder"
-                    android:layout_alignParentEnd="true"
-                    android:text="GONDER"
-                    android:layout_marginEnd="10dp"
-                    android:layout_centerVertical="true"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorPrimary"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:text="GONDER"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
 
             </RelativeLayout>
@@ -67,7 +68,7 @@
             android:maxLines="5"
             android:layout_marginTop="15dp"/>
 
-        
+
     </LinearLayout>
 
 </LinearLayout>

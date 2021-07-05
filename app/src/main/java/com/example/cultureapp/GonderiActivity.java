@@ -64,6 +64,7 @@ public class GonderiActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 resimYukle();
+
             }
         });
         CropImage.activity()

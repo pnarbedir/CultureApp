@@ -9,7 +9,21 @@
     android:layout_marginRight="10dp"
     android:orientation="vertical"
     tools:context=".OkumaListOlustur">
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kitap No:"
+        android:textSize="21sp" />
 
+    <EditText
+        android:id="@+id/etKitapNo"
+        android:layout_width="383dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine" />
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
@@ -58,55 +72,57 @@
         android:gravity="start|top"
         android:inputType="textMultiLine" />
 
-    <Button
-        android:id="@+id/btnKitapKaydet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="ClickKitapKaydet"
-        android:text="Kaydet"
-        android:textSize="24sp" />
-
-    <Button
-        android:id="@+id/btnKitapListele"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:onClick="ClickKitapListele"
-        android:text="kitaplarımı listele"
-        android:textSize="24sp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="horizontal"
         android:layout_marginTop="5dp"
-        android:orientation="horizontal">
+        >
 
         <Button
-            android:id="@+id/button10"
-            android:layout_width="wrap_content"
-            android:layout_height="83dp"
-            android:layout_weight="1"
-            android:text="ANASAYFA" />
+            android:id="@+id/btnKitapKaydet"
+            android:layout_width="60dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/menusave"
+            android:onClick="ClickKitapKaydet"
+            android:textSize="24sp" />
 
         <Button
-            android:id="@+id/button4"
-            android:layout_width="wrap_content"
-            android:layout_height="83dp"
-            android:text="PROFİL" />
+            android:id="@+id/btnKitapListele"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="35dp"
+            android:background="@drawable/menulist"
+            android:onClick="ClickKitapListele"
+            android:textSize="24sp" />
 
         <Button
-            android:id="@+id/button9"
-            android:layout_width="wrap_content"
-            android:layout_height="83dp"
-            android:layout_weight="1"
-            android:text="BİLDİRİMLER" />
+            android:id="@+id/btnKitapSil"
+            android:layout_width="60dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="35dp"
+            android:background="@drawable/menusil"
+            android:onClick="ClickKitapSil"
+            android:textSize="24sp" />
 
         <Button
-            android:id="@+id/button11"
-            android:layout_width="wrap_content"
-            android:layout_height="83dp"
-            android:layout_weight="1"
-            android:text="ARAMA" />
+            android:id="@+id/btnKitapGuncelle"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="35dp"
+            android:background="@drawable/menupdate"
+            android:onClick="ClickKitapGuncelle"
+            android:textSize="24sp" />
     </LinearLayout>
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="#188A99"
+        app:itemIconTint="#FFFFFF"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/bottom_navigation" />
 </LinearLayout>

@@ -1,15 +1,19 @@
 package com.example.cultureapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -22,6 +26,7 @@ public class GeziListesi extends AppCompatActivity {
     ArrayList<String> geziYeriArray;
     ArrayList<Integer> idArray;
     ArrayAdapter arrayAdapter;
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +36,11 @@ public class GeziListesi extends AppCompatActivity {
         listView = findViewById(R.id.lvListe);
         geziYeriArray = new ArrayList<String>();
         idArray = new ArrayList<Integer>();
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
-       // database = this.openOrCreateDatabase("GeziListem", MODE_PRIVATE, null);
+
+        // database = this.openOrCreateDatabase("GeziListem", MODE_PRIVATE, null);
         //database.execSQL("CREATE TABLE IF NOT EXISTS GeziListem (id INTEGER PRIMARY KEY, yeradi VARCHAR, sebep VARCHAR)");
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, geziYeriArray);
         listView.setAdapter(arrayAdapter);
@@ -51,6 +59,21 @@ public class GeziListesi extends AppCompatActivity {
 
 
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    int id = item.getItemId();
+                    if (id == R.id.nav_home) {
+                        Intent intent = new Intent(GeziListesi.this,Anasayfa.class);
+
+                        startActivity(intent);
+                    }
+
+                    return true;
+                }
+            };
     public void getData() {
 
         try {

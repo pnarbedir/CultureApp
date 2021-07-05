@@ -1,4 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/pp"
+        android:title="Profil" />
+
+    <item
+        android:id="@+id/okuma_list"
+        android:title="Okuma Listesi" />
+
+    <item
+        android:id="@+id/gezi_list"
+        android:title="Gezi Listesi" />
+
+    <item
+        android:id="@+id/konum_list"
+        android:title="Konum kaydet" />
+    <item
+        android:id="@+id/ayarlar_menu"
+        android:title="Ayarlar" />
+
+    <item
+        android:id="@+id/cikis_menu"
+        android:title="Çıkış" />
+
 
 </menu>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Material.Light.TextView.ListSeparator"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/txtKitapAd2"
+        android:layout_width="290dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="32dp"
+        android:text="TextView"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtAlinti2"
+        android:layout_width="299dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="108dp"
+        android:fontFamily="@font/courgette"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtYazarad2"
+        android:layout_width="87dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="320dp"
+        android:layout_marginBottom="68dp"
+        android:text="TextView"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtSayfano2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="36dp"
+        android:text="TextView"
+        android:textStyle="italic"
+        android:typeface="monospace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtAlintikullanici"
+        android:layout_width="146dp"
+        android:layout_height="24dp"
+        android:text="TextView"
+        android:visibility="invisible"
+        tools:layout_editor_absoluteX="34dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

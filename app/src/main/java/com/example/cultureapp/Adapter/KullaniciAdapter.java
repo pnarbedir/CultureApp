@@ -2,6 +2,7 @@ package com.example.cultureapp.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.cultureapp.Anasayfa;
 import com.example.cultureapp.Cerceve.ProfileFragment;
 import com.example.cultureapp.R;
 import com.example.cultureapp.model.Kullanici;
@@ -22,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -33,10 +36,12 @@ public class KullaniciAdapter extends RecyclerView.Adapter<KullaniciAdapter.View
     private Context mContext;
     private List<Kullanici> mKullanicilar;
     private FirebaseUser firebaseKullanici;
+    private boolean isFragment;
 
-    public KullaniciAdapter(Context mContext, List<Kullanici> mKullanicilar) {
+    public KullaniciAdapter(Context mContext, List<Kullanici> mKullanicilar,boolean isFragment) {
         this.mContext = mContext;
         this.mKullanicilar = mKullanicilar;
+        this.isFragment = isFragment;
     }
 
     @NonNull
@@ -67,13 +72,19 @@ public class KullaniciAdapter extends RecyclerView.Adapter<KullaniciAdapter.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
-                editor.putString("profileid",kullanici.getId());
-                editor.apply();
+                if(isFragment) {
+                    SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
+                    editor.putString("profileid", kullanici.getId());
+                    editor.apply();
 
-               ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.cerceve_kapsayicisi,new ProfileFragment()).commit();
+                    ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.cerceve_kapsayicisi, new ProfileFragment()).commit();
 
-
+                }
+                else{
+                    Intent intent = new Intent(mContext, Anasayfa.class);
+                    intent.putExtra("gonderenId",kullanici.getId());
+                    mContext.startActivity(intent);
+                }
             }
         });
 
@@ -86,6 +97,8 @@ public class KullaniciAdapter extends RecyclerView.Adapter<KullaniciAdapter.View
 
                     FirebaseDatabase.getInstance().getReference().child("Takip").child(kullanici.getId())
                             .child("takipciler").child(firebaseKullanici.getUid()).setValue(true);
+
+                    addNotifications(kullanici.getId());
                 }
 
                 else {
@@ -99,6 +112,18 @@ public class KullaniciAdapter extends RecyclerView.Adapter<KullaniciAdapter.View
         });
 
 
+    }
+    private void addNotifications(String kullaniciId) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Bildirimler")
+                .child(kullaniciId);
+
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("kullaniciId",firebaseKullanici.getUid());
+        hashMap.put("text","seni takip etmeye başladı");
+        hashMap.put("gonderiId","");
+        hashMap.put("ispost",false);
+
+        reference.push().setValue(hashMap);
     }
 
     @Override
@@ -131,7 +156,7 @@ public class KullaniciAdapter extends RecyclerView.Adapter<KullaniciAdapter.View
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //Toast.makeText(mContext,"Takibe girdi",Toast.LENGTH_SHORT).show();
-               // System.out.println("*****************************" + " " + kullaniciId + " ************ "+button.getText());
+                // System.out.println("**********" + " " + kullaniciId + " ***** "+button.getText());
 
                 if(dataSnapshot.child(kullaniciId).exists() && dataSnapshot.getValue() != null) {
                     button.setText("Takip Ediliyor");

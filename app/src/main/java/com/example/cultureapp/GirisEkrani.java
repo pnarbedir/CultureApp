@@ -69,6 +69,7 @@ public class GirisEkrani extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 Intent intent = new Intent(GirisEkrani.this,Anasayfa.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 finish();
                             }

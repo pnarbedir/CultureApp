@@ -4,6 +4,7 @@ public class Yorum {
 
     private String yorum;
     private String gonderen;
+    private String yorumId;
 
     public Yorum() {
     }
@@ -24,9 +25,18 @@ public class Yorum {
         this.gonderen = gonderen;
     }
 
-    public Yorum(String yorum, String gonderen) {
+    public String getYorumId() {
+        return yorumId;
+    }
+
+    public void setYorumId(String yorumId) {
+        this.yorumId = yorumId;
+    }
+
+    public Yorum(String yorum, String gonderen, String yorumId) {
         this.yorum = yorum;
         this.gonderen = gonderen;
+        this.yorumId = yorumId;
     }
 
 

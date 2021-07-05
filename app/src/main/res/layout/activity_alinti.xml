@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AlintiActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/bar_Alinti"
+        android:background="?android:attr/windowBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_Gonderi"
+            android:background="#FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/close_Gonderi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/ic_kapat"/>
+
+                <TextView
+                    android:id="@+id/txt_Gonder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:text="GONDER"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txt_Gonder2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:text="GONDER"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edt_Kitap_Adi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="Kitap adını giriniz."
+            android:maxLines="5" />
+
+        <EditText
+            android:id="@+id/edt_Kitap_Yazari"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="Yazar adını giriniz."
+            android:maxLines="5" />
+
+        <EditText
+            android:id="@+id/edt_Kitap_Alinti"
+            android:layout_width="match_parent"
+            android:layout_height="163dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="Alıntını paylaş."
+            android:inputType="textMultiLine" />
+
+        <EditText
+            android:id="@+id/edt_AlintiSayfaNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="Sayfa numarasını giriniz."
+            android:maxLines="5" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

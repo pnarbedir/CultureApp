@@ -52,13 +52,14 @@ public class AramaFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView_arama);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        arama_bar = view.findViewById(R.id.et_arama_bar);
         mKullanicilar = new ArrayList<>();
 
 
-        arama_bar = view.findViewById(R.id.et_arama_bar);
+
         kullanicileriOku();
         // Verileri doğru çekemiyor birinci hata bu
-        kullaniciAdapter = new KullaniciAdapter(getContext(),mKullanicilar);
+        kullaniciAdapter = new KullaniciAdapter(getContext(),mKullanicilar,true);
         recyclerView.setAdapter(kullaniciAdapter);
 
 

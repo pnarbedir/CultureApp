@@ -21,7 +21,17 @@
     <ListView
         android:id="@+id/lvListe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="435dp" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="#188A99"
+        app:itemIconTint="#FFFFFF"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/bottom_navigation" />
 
 
 </LinearLayout>

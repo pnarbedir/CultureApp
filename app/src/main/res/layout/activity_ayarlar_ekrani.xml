@@ -74,7 +74,33 @@
             android:layout_margin="10dp"/>
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Fotografi Degistir"
+            android:layout_gravity="center"
+            android:id="@+id/tv_change"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            />
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fullname"
+            android:hint="Adı Soyadı"
+            android:layout_marginTop="20dp"
+            app:met_floatingLabel="normal"/>
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/username"
+            android:hint="Kullanici adi"
+            app:met_floatingLabel="normal"/>
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bio"
+            android:hint="Biyografi"
+            app:met_floatingLabel="normal"/>
+
             
     </LinearLayout>
 

@@ -1,6 +1,8 @@
 package com.example.cultureapp.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,8 @@ import com.example.cultureapp.Anasayfa;
 import com.example.cultureapp.R;
 import com.example.cultureapp.model.Kullanici;
 import com.example.cultureapp.model.Yorum;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,10 +33,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class YorumAdapter extends RecyclerView.Adapter<YorumAdapter.ViewHolder>{
     private Context mContext;
+    private String gonderiId;
 
-    public YorumAdapter(Context mContext, List<Yorum> mYorumListesi) {
+    public YorumAdapter(Context mContext, List<Yorum> mYorumListesi,String gonderiId) {
         this.mContext = mContext;
         this.mYorumListesi = mYorumListesi;
+        this.gonderiId = gonderiId;
     }
 
     private List<Yorum> mYorumListesi;
@@ -70,6 +76,46 @@ public class YorumAdapter extends RecyclerView.Adapter<YorumAdapter.ViewHolder>{
                 mContext.startActivity(intent);
             }
         });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if(yorum.getGonderen().equals(mevcutKullanici.getUid())) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+                    alertDialog.setTitle("Silmek ister misiniz?");
+                    alertDialog.setButton(alertDialog.BUTTON_NEUTRAL, "No",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Evet",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    FirebaseDatabase.getInstance().getReference("Yorumlar")
+                                            .child(gonderiId).child(yorum.getYorumId())
+                                            .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()) {
+                                                Toast.makeText(mContext,"Silindi",Toast.LENGTH_SHORT).show();
+
+                                            }
+                                        }
+                                    });
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }
+
+
+                return true;
+            }
+        });
+
     }
 
     @Override

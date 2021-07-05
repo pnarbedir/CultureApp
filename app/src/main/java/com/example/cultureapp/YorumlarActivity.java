@@ -63,13 +63,19 @@ public class YorumlarActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = getIntent();
+
+        gonderiId = intent.getStringExtra("gonderiId");
+        gonderenId = intent.getStringExtra("gonderenId");
+
+
         recyclerView = findViewById(R.id.recycler_view_yorumlarActivity);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
         yorumListesi = new ArrayList<>();
-        yorumAdapter = new YorumAdapter(this,yorumListesi);
+        yorumAdapter = new YorumAdapter(this,yorumListesi,gonderiId);
         recyclerView.setAdapter(yorumAdapter);
 
 
@@ -79,10 +85,6 @@ public class YorumlarActivity extends AppCompatActivity {
 
         mevcutKullanici = FirebaseAuth.getInstance().getCurrentUser();
 
-        Intent intent = getIntent();
-
-        gonderiId = intent.getStringExtra("gonderiId");
-        gonderenId = intent.getStringExtra("gonderenId");
 
         txt_gonder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,13 +105,29 @@ public class YorumlarActivity extends AppCompatActivity {
     private void yorumEkle() {
 
         DatabaseReference yorumlarYolu = FirebaseDatabase.getInstance().getReference("Yorumlar").child(gonderiId);
+
+        String yorumId = yorumlarYolu.push().getKey();
         HashMap<String,Object> hashMap = new HashMap<>();
         hashMap.put("yorum",edt_yorumEkle.getText().toString());
         hashMap.put("gonderen",mevcutKullanici.getUid());
+        hashMap.put("yorumId",yorumId);
 
-        yorumlarYolu.push().setValue(hashMap);
+        yorumlarYolu.child(yorumId).setValue(hashMap);
+        addNotifications();
         edt_yorumEkle.setText("");
 
+    }
+    private void addNotifications() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Bildirimler")
+                .child(gonderenId);
+
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("kullaniciId",mevcutKullanici.getUid());
+        hashMap.put("text","yorum yapti: " + edt_yorumEkle.getText().toString());
+        hashMap.put("gonderiId",gonderiId);
+        hashMap.put("ispost",true);
+
+        reference.push().setValue(hashMap);
     }
 
     private void resimAl() {
